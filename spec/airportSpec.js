@@ -23,4 +23,20 @@ describe("Airport", function(){
     airport.clearForTakeoff(plane);
     expect(airport.planes()).toEqual([]);
   });
+
+  it("can check for stormy weather conditions", function(){
+    expect(airport.isStormy()).toBeFalsy();
+  });
+
+  describe("under stormy conditions", function(){
+    it("does not clear plane to take off", function(){
+      spyOn(airport,"isStormy").and.returnValue(true);
+      expect(function(){ airport.clearForTakeoff(plane);}).toThrowError("cannot take off during storm");
+    });
+
+    it("does not clear plane to land", function(){
+      spyOn(airport,"isStormy").and.returnValue(true);
+      expect(function(){ airport.clearForLanding(plane);}).toThrowError("cannot land during storm");
+    });
+  });
 });
